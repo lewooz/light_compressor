@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/services.dart';
 import 'package:light_compressor/light_compressor.dart';
@@ -102,6 +103,8 @@ class LightCompressor {
     }));
 
     if (response['onSuccess'] != null) {
+      final file = File(path);
+      await file.delete();
       return OnSuccess(response['onSuccess']);
     } else if (response['onFailure'] != null) {
       return OnFailure(response['onFailure']);
