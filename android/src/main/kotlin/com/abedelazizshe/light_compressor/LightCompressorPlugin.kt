@@ -131,7 +131,7 @@ class LightCompressorPlugin : FlutterPlugin, MethodCallHandler,
     }
 
     private fun compressVideo(
-        oldPath: String,
+        path: String,
         result: Result,
         quality: VideoQuality,
         isSharedStorage: Boolean,
@@ -147,7 +147,7 @@ class LightCompressorPlugin : FlutterPlugin, MethodCallHandler,
 
         VideoCompressor.start(
             context = applicationContext,
-            uris = listOf(Uri.fromFile(File(oldPath))),
+            uris = listOf(Uri.fromFile(File(path))),
             isStreamable = false,
             sharedStorageConfiguration = if (isSharedStorage) SharedStorageConfiguration(
                 saveAt = when (saveAt) {
@@ -169,7 +169,6 @@ class LightCompressorPlugin : FlutterPlugin, MethodCallHandler,
                 override fun onStart(index: Int) {}
 
                 override fun onSuccess(index: Int, size: Long, path: String?) {
-                    File(oldPath).delete()
                     result.success(
                         gson.toJson(
                             buildResponseBody(
